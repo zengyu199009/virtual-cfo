@@ -53,16 +53,9 @@ git clone https://github.com/zengyu199009/virtual-cfo.git
 
 The three scripts only use Python 3 stdlib — no pip installs.
 
-## Pro version
+## More
 
-The GitHub repo is the **Lite version** — fully functional, MIT licensed. The **Pro version ($9 one-time)** adds:
-
-- **Board-level report templates** (investor-ready, bilingual EN/ZH)
-- **Expanded industry baselines** (SaaS / marketplace / hardware / agency)
-- **Private financial health checklist** + scenario templates
-- **Priority updates & support**
-
-👉 **[Buy Pro — $9 one-time](https://pancake.waffo.ai/store/zengyu-ai-skills-9d6ik0c1/product/PROD_7UxIz1AH2Nu5jLqqblhNGC?type=onetime&currency=USD)**
+More AI skills for one-person companies and startups: **[skills.alqedge.com](https://skills.alqedge.com)**
 
 ## License
 

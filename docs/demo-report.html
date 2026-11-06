@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual CFO — Real Output Demo | AlqEdge Skill Store</title>
+<style>
+  :root{
+    --bg:#0f1117; --card:#171a23; --card2:#1d2130; --border:#2a2e3d; --text:#e8eaf0; --muted:#9aa0b0;
+    --accent:#6c5ce7; --green:#00b894; --red:#ff6b6b; --yellow:#fdcb6e; --cyan:#00cec9; --purple:#a29bfe;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 80px}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .lang-toggle{margin-left:auto;display:flex;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:3px;font-size:12px}
+  .lang-toggle a{color:var(--muted);text-decoration:none;padding:4px 10px;border-radius:6px}
+  .lang-toggle a.active{background:var(--accent);color:#fff;font-weight:700}
+  .logo{font-weight:800;font-size:14px}.logo span{color:var(--accent)}
+  .hero h1{font-size:24px;line-height:1.3;margin-bottom:6px}
+  .hero h1 .en{display:block;font-size:15px;color:var(--accent);font-weight:600;margin-top:4px}
+  .hero .sub{color:var(--muted);font-size:13.5px}
+  .conf{display:inline-flex;align-items:center;gap:6px;background:rgba(0,184,148,.12);border:1px solid var(--green);color:var(--green);border-radius:20px;padding:4px 14px;font-size:13px;margin:12px 0}
+  .bg-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;font-size:13px;color:var(--muted);margin-bottom:8px}
+  .bg-box b{color:var(--text)}
+  .bg-box .en{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .section{margin:26px 0 12px}
+  .sec-title{font-size:17px;font-weight:800;display:flex;align-items:baseline;gap:8px}
+  .sec-title .en{font-size:12.5px;color:var(--accent);font-weight:600}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:680px){.cards{grid-template-columns:1fr 1fr}}
+  .metric{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+  .metric .mv{font-size:21px;font-weight:800;margin:4px 0}
+  .metric .ml{font-size:11px;color:var(--muted)}
+  .metric .ml .en{display:block;color:var(--muted);opacity:.8}
+  .metric .mt{font-size:10.5px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .metric.red{border-color:rgba(255,107,107,.5)} .metric.red .mv{color:var(--red)}
+  .metric.yellow{border-color:rgba(253,203,110,.4)} .metric.yellow .mv{color:var(--yellow)}
+  .metric.green{border-color:rgba(0,184,148,.4)} .metric.green .mv{color:var(--green)}
+  .warn-card{background:rgba(255,107,107,.06);border:1px solid rgba(255,107,107,.3);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+  .warn-card h4{color:var(--red);font-size:14px;margin-bottom:6px}
+  .warn-card p,.warn-card li{font-size:12.5px;color:var(--muted)}
+  .warn-card li{margin:5px 0 5px 18px}
+  .warn-card li .en{display:block;font-size:11.5px;opacity:.75}
+  .blue-card{background:rgba(0,206,201,.06);border:1px solid rgba(0,206,201,.3);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+  .blue-card h4{color:var(--cyan);font-size:14px;margin-bottom:6px}
+  .blue-card p{font-size:13px;color:var(--muted)}
+  .blue-card p .en{display:block;font-size:12px}
+  .purple-card{background:rgba(108,92,231,.07);border:1px solid rgba(108,92,231,.35);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+  .purple-card h4{color:var(--accent);font-size:14px;margin-bottom:6px}
+  .purple-card p,.purple-card li{font-size:12.5px;color:var(--muted)}
+  .purple-card li{margin:5px 0 5px 18px}
+  .purple-card li .en{display:block;font-size:11.5px;opacity:.75}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+  th{color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+  @media(max-width:680px){.actions{grid-template-columns:1fr}}
+  .act{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+  .act .at{font-size:12px;font-weight:800;color:var(--accent);margin-bottom:8px}
+  .act li{font-size:11.5px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);list-style:none}
+  .act li:last-child{border:none}
+  .act li b{color:var(--text)}
+  .act li .en{display:block;font-size:10.5px;opacity:.75}
+  .footer{margin-top:36px;border-top:1px solid var(--border);padding-top:16px;color:var(--muted);font-size:12px;text-align:center}
+  .note{font-size:11.5px;color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="logo">🧮 Virtual CFO <span>· Real Output Demo</span></div>
+    <div class="lang-toggle" role="group" aria-label="Language"><a href="/virtual-cfo/demo/" class="active">EN</a><a href="/zh/virtual-cfo/demo/">中文</a></div>
+  </div>
+
+  <div class="hero">
+    <h1>Virtual CFO Real Output — Runway Emergency Analysis · Demo Case: AcmeFlow</h1>
+    <p class="sub">This is a real run of the Virtual CFO skill: input financials → 3-scenario modeling → red flags → decision triggers → 90-day actions. Calculations executed by the built-in Python tool — not simulated.
+    </p>
+    <div class="conf">🔴 Demo case · Real computation</div>
+    <div class="bg-box"><b>Company: AcmeFlow (demo case)</b> One-person SaaS, solo founder + AI agent team. Cash $120K · MRR $12K · Monthly fixed costs $34K (AI tools/outsourcing/marketing) · 2% monthly growth · +$4K at M2, +$5K at M5.</div>
+  </div>
+
+  <div class="section"><div class="sec-title">📊 CFO Metrics Dashboard</div></div>
+  <div class="cards">
+    <div class="metric red"><div class="mt">Runway</div><div class="mv">6 months</div><div class="ml">🔴 Red flag &lt; 9 mo</div></div>
+    <div class="metric red"><div class="mt">Burn Multiple</div><div class="mv">~7.6x</div><div class="ml">🔴 Target &lt; 1.5x</div></div>
+    <div class="metric yellow"><div class="mt">Net Burn</div><div class="mv">~$22K/mo</div><div class="ml">🟡 Rev $12K &lt; cost $34K</div></div>
+    <div class="metric green"><div class="mt">Gross Margin</div><div class="mv">~82%</div><div class="ml">🟢 Healthy</div></div>
+    <div class="metric yellow"><div class="mt">NDR</div><div class="mv">~105%</div><div class="ml">🟡 Slight growth</div></div>
+    <div class="metric red"><div class="mt">Top Customer</div><div class="mv">~22%</div><div class="ml">🔴 &gt;20% concentration</div></div>
+    <div class="metric yellow"><div class="mt">LTV : CAC</div><div class="mv">~2.4x</div><div class="ml">🟡 Target &gt; 3x</div></div>
+    <div class="metric red"><div class="mt">Fundraising</div><div class="mv">None</div><div class="ml">🔴 No plan + 6 mo runway</div></div>
+  </div>
+
+  <div class="section"><div class="sec-title">📐 vs 2026 Benchmarks <span class="en">Grid / SaaSrise / Benchmarkit</span></div></div>
+  <table>
+    <tr><th>Metric</th><th class="num">AcmeFlow</th><th class="num">2026 Median</th><th class="num">Percentile</th><th>Verdict</th></tr>
+    <tr><td>Burn Multiple</td><td class="num">~7.6x</td><td class="num">$0.12</td><td class="num">90th $5.15</td><td>🔴 Worse than 90%</td></tr>
+    <tr><td>Runway</td><td class="num">6 months</td><td class="num">13.1 months</td><td class="num">25th 4.3</td><td>🔴 Half of median</td></tr>
+    <tr><td>NDR</td><td class="num">~105%</td><td class="num">102%</td><td class="num">Ent 115%</td><td>🟡 Above median</td></tr>
+    <tr><td>LTV : CAC</td><td class="num">2.4x</td><td class="num">3.3x</td><td class="num">Boot 5.0x</td><td>🟡 Below median</td></tr>
+  </table>
+  <p class="note">Sources: Grid State of SaaS B2B Benchmarks 2025-26 (130+ companies) · SaaSrise 2026 (2,500) · Benchmarkit 2026 (342). Details in references/saas-financial-baselines.md.</p>
+
+  <div class="section"><div class="sec-title">🚨 Red Flags <span class="en">(auto-triggered)</span></div></div>
+  <div class="warn-card">
+    <h4>🔴 4 red flags fired</h4>
+    <ul>
+      <li><b>Runway &lt; 9 months, no fundraise in process</b> — cash out at M6 in all 3 scenarios.</li>
+      <li><b>Burn multiple &gt; 2x for 2+ months</b> — spending outpaces growth, the worst combination.</li>
+      <li><b>Decision triggers reached</b> — $51K at M3 → fundraising must start; 3-month window.</li>
+      <li><b>Customer concentration &gt; 20%</b> — revenue concentration risk.</li>
+    </ul>
+  </div>
+
+  <div class="section"><div class="sec-title">📈 Runway by Scenario <span class="en">(script-computed)</span></div></div>
+  <table>
+    <tr><th>Scenario</th><th>Monthly Growth</th><th class="num">Runway</th><th class="num">End Balance</th><th class="num">Final MRR</th><th>Verdict</th></tr>
+    <tr><td>Base</td><td>2%</td><td class="num">6 months</td><td class="num">-$15,789</td><td class="num">$13,514</td><td>🔴 Red alert</td></tr>
+    <tr><td>Bull</td><td>4%</td><td class="num">6 months</td><td class="num">-$10,220</td><td class="num">$15,184</td><td>🔴 Red alert</td></tr>
+    <tr><td>Bear</td><td>0%</td><td class="num">6 months</td><td class="num">-$21,000</td><td class="num">$12,000</td><td>🔴 Red alert</td></tr>
+  </table>
+  <p class="note">Conclusion: growth of 0-4% can't change the 6-month cash-out — the problem is cost structure, not growth. Cut burn or fundraise. Now.</p>
+
+  <div class="section"><div class="sec-title">🎯 90-Day Action Plan</div></div>
+  <div class="actions">
+    <div class="act">
+      <div class="at">⚡ Immediate (0-30 days) · Survival</div>
+      <ul>
+        <li><b>Cut burn to $22K/mo</b> — freeze outsourcing, drop non-core AI tools, pause hires → runway back to 8-9 mo.</li>
+        <li><b>Start fundraising</b> — angel round $300-500K.</li>
+        <li><b>Collect AR + annual-prepay discount</b> — chase &gt;60d overdue; 15% discount for annual prepay.</li>
+      </ul>
+    </div>
+    <div class="act">
+      <div class="at">📈 Mid (30-60 days) · Fix Unit Economics</div>
+      <ul>
+        <li><b>Price test</b> — +20% on core plan, watch 2 weeks.</li>
+        <li><b>Focus on high-NDR segments</b> — target NDR &gt;110%.</li>
+        <li><b>Cut CAC</b> — stop inefficient ads, shift to content/referrals.</li>
+      </ul>
+    </div>
+    <div class="act">
+      <div class="at">🏛️ Decisive (60-90 days)</div>
+      <ul>
+        <li><b>Negotiate term sheet</b> — model dilution; set red lines first.</li>
+        <li><b>Or breakeven plan</b> — if funding fails, execute a healthy cost structure.</li>
+        <li><b>Board pack</b> — P&amp;L, cash, forecast, asks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section"><div class="sec-title">✅ Data Sources &amp; Verification <span class="en">(battle-tested)</span></div></div>
+  <div class="purple-card">
+    <h4>How this output was produced</h4>
+    <ul>
+      <li><b>Real computation</b> — runway_calculator.py actually ran to produce the 3-scenario data.</li>
+      <li><b>Baselines sourced</b> — targets (burn multiple &lt; 1.5x, runway &gt; 12 months) from 2026 published benchmarks: Grid 130+ companies / SaaSrise 2,500 / Benchmarkit 342.</li>
+      <li><b>Pitfalls we hit</b> — evolved from single-scenario to base/bull/bear; fixed a mis-set positive-cash demo case.</li>
+      <li><b>Honest labels</b> — every finding confidence-tagged 🟢 verified / 🟡 medium / 🔴 assumed.</li>
+    </ul>
+  </div>
+
+  <div class="blue-card">
+    <h4>🔓 Preview vs 🔒 Full version</h4>
+    <p>Preview page for display; the full version = methodology + tools + data baselines + templates.</p>
+  </div>
+
+  <div class="footer">
+    AlqEdge Skill Store · One-Person Company AI Toolbox<br>
+    Battle-tested, not AI-generated.<br>
+    Demo data for display only · 2026-10-10
+  </div>
+</div>
+</body>
+</html>
